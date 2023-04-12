@@ -9,53 +9,48 @@ public class TiendaCamisas {
         Scanner scanner = new Scanner(System.in);
 
         // Creamos un array para guardar la cantidad de cada tipo de camisa
-        int[] cantidadCamisasTipo = new int[Camisas.values().length];
+        int[] cantidadCamisas = new int[Camisas.values().length];
         for (int i = 0; i < Camisas.values().length; i++) {
-            cantidadCamisasTipo[i] = 0;
+            cantidadCamisas[i] = 0;
         }
 
-        // Pedimos al usuario que introduzca la cantidad de cada tipo de camisa
+        // Pedimos al usuario que introduzca la cantidad de camisas por tipo
         for (Camisas camisa : Camisas.values()) {
             System.out.print("Ingrese la cantidad de " + camisa.getNombreCamisa() + " que quiere comprar: ");
             int cantidad = scanner.nextInt();
-            cantidadCamisasTipo[camisa.getIdCamisa()-1] = cantidad;
+            cantidadCamisas[camisa.getIdCamisa()-1] = cantidad;
         }
 
         scanner.close();
 
-        // Calculamos el cantidad total de camisas
-        int cantidadCamisas = 0;
-        for (Camisas camisa : Camisas.values()) {
-            int cantidad = cantidadCamisasTipo[camisa.getIdCamisa()-1];
-            cantidadCamisas += cantidad;
-        }
-
-        // Calculamos el precio total de las camisas
+        // Calculamos catidad total y precio total de camisas
+        int cantidadTotal = 0;
         int precioTotal = 0;
         for (Camisas camisa : Camisas.values()) {
-            int cantidad = cantidadCamisasTipo[camisa.getIdCamisa()-1];
+            int cantidad = cantidadCamisas[camisa.getIdCamisa()-1];
+            cantidadTotal += cantidad;
             precioTotal += cantidad * camisa.getPrecio();
         }
 
-        if (cantidadCamisas > 0) {
+        if (cantidadTotal > 0) {
             // Mostramos la Cantidad de cada tipo de camisas al usuario
             System.out.println("\nCantidad de camisas compradas (por tipo):");
             for (Camisas camisa : Camisas.values()) {
-                int cantidad = cantidadCamisasTipo[camisa.getIdCamisa()-1];
+                int cantidad = cantidadCamisas[camisa.getIdCamisa()-1];
                 System.out.println(camisa.getNombreCamisa() + ": " + cantidad);
             }
 
-            double descuento = calcularDescuento(cantidadCamisas);
+            double descuento = calcularDescuento(cantidadTotal);
             double precioTotalConDescuento = totalConDescuento(precioTotal,descuento);
 
             // Mostramos los resultados al usuario
             System.out.println("\nResumen de compra:");
-            System.out.println("Cantidad de camisas: " + cantidadCamisas);
+            System.out.println("Cantidad de camisas: " + cantidadTotal);
             System.out.println("Precio total sin descuento: $" + precioTotal);
             System.out.println("Descuento aplicado: " + (descuento * 100) + "%");
             System.out.println("Total con descuento: $" + precioTotalConDescuento);
         } else {
-            System.out.println("\nNo compraste ninguna camisa");
+            System.out.println("\nNo compraste ninguna camisa!");
         }
     }
 
@@ -72,6 +67,7 @@ public class TiendaCamisas {
         }
     }
 
+    // Metodo para calcular el precio total con el descuento aplicado
     public static double totalConDescuento(int precioTotal, double descuento) {
         return precioTotal - (precioTotal * descuento);
     }

@@ -19,10 +19,8 @@ public enum Camisas {
     public String getNombreCamisa() {
         return nombreCamisa;
     }
-
     public int getPrecio() {
         return precio;
     }
 
 }
-
