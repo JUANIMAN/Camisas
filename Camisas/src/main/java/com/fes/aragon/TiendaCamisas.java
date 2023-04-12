@@ -1,5 +1,6 @@
 package com.fes.aragon;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TiendaCamisas {
@@ -8,7 +9,7 @@ public class TiendaCamisas {
 
         Scanner scanner = new Scanner(System.in);
 
-        // Creamos un array para guardar la cantidad de cada tipo de camisa
+        // Creamos un array para guardar la cantidad de camisas por tipo
         int[] cantidadCamisas = new int[Camisas.values().length];
         for (int i = 0; i < Camisas.values().length; i++) {
             cantidadCamisas[i] = 0;
@@ -16,8 +17,17 @@ public class TiendaCamisas {
 
         // Pedimos al usuario que introduzca la cantidad de camisas por tipo
         for (Camisas camisa : Camisas.values()) {
-            System.out.print("Ingrese la cantidad de " + camisa.getNombreCamisa() + " que quiere comprar: ");
-            int cantidad = scanner.nextInt();
+            int cantidad;
+            while (true) {
+                try {
+                    System.out.print("Ingrese la cantidad de " + camisa.getNombreCamisa() + " que desea comprar: ");
+                    cantidad = scanner.nextInt();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Por favor ingrese un número válido.");
+                    scanner.next();
+                }
+            }
             cantidadCamisas[camisa.getIdCamisa()-1] = cantidad;
         }
 
